@@ -8,7 +8,9 @@
 
 ```
 company-website/
-├── index.html        # 랜딩 페이지 (Hero · 서비스 · 진행방식 · 회사소개 · 문의)
+├── index.html        # 메인 랜딩 (Hero · 서비스 · 진행방식 · 회사소개 · 문의)
+├── about.html        # 회사 소개 (스토리 · 가치 · 5인 팀)
+├── portfolio.html    # 포트폴리오 (프로젝트 사례)
 ├── css/
 │   └── style.css     # 전체 스타일 (반응형)
 ├── js/
