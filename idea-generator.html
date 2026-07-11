@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 창업 아이디어 생성기 — AI공장</title>
+  <meta name="description" content="관심 키워드·예산·시간을 입력하면 AI공장이 맞춤 창업 아이디어와 수익 모델을 즉석에서 뽑아드립니다. 무료." />
+  <meta name="theme-color" content="#0b1220" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="AI 창업 아이디어 생성기 — AI공장" />
+  <meta property="og:description" content="키워드만 넣으면 돈 되는 창업 아이디어를 즉석에서. 무료 도구." />
+  <meta property="og:locale" content="ko_KR" />
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%232b4eff'/%3E%3Cpath d='M56 16 32 58h17l-6 26 33-46H59l5-22z' fill='white'/%3E%3C/svg%3E" />
+  <style>
+    .tool-wrap { max-width: 920px; }
+    .tool-form {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      display: grid;
+      gap: 18px;
+    }
+    .field label { display: block; font-weight: 700; margin-bottom: 8px; font-size: .95rem; }
+    .field input[type=text], .field select {
+      width: 100%;
+      font-family: inherit;
+      font-size: 1rem;
+      padding: 13px 15px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: #fff;
+      color: var(--ink);
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .field input:focus, .field select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(43,78,255,.12);
+    }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .chip {
+      font-size: .84rem; font-weight: 600;
+      padding: 6px 12px; border-radius: 999px;
+      background: var(--primary-light); color: var(--primary);
+      border: 0; cursor: pointer; font-family: inherit;
+      transition: background .15s;
+    }
+    .chip:hover { background: #dfe4ff; }
+    .gen-btn { width: 100%; font-size: 1.05rem; padding: 15px; }
+    .results { margin-top: 34px; display: grid; gap: 20px; }
+    .idea {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 26px 26px 24px;
+      box-shadow: var(--shadow-sm);
+      opacity: 0; transform: translateY(14px);
+      animation: rise .5s ease forwards;
+    }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+    .idea h3 { font-size: 1.28rem; margin-bottom: 6px; }
+    .idea .oneliner { color: var(--ink-soft); margin-bottom: 18px; }
+    .idea .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+    .pill {
+      font-size: .78rem; font-weight: 700;
+      padding: 5px 11px; border-radius: 999px;
+      background: var(--bg-soft); border: 1px solid var(--line); color: var(--ink-soft);
+    }
+    .pill.diff { color: var(--accent); }
+    .idea .block { margin-bottom: 14px; }
+    .idea .block b { display: block; color: var(--primary); font-size: .82rem; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 5px; }
+    .idea .block p, .idea .block ol { color: var(--ink-soft); font-size: .96rem; }
+    .idea ol { padding-left: 20px; }
+    .idea ol li { margin-bottom: 4px; }
+    .idea-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .empty-hint { text-align: center; color: var(--muted); padding: 30px 0 4px; }
+    .tool-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--primary-light); color: var(--primary);
+      font-weight: 700; font-size: .85rem;
+      padding: 6px 14px; border-radius: 999px; margin-bottom: 18px;
+    }
+    @media (max-width: 560px){ .field-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header" id="top">
+    <div class="container nav">
+      <a href="index.html" class="brand">
+        <span class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M13.6 2 5 13.4h5.3L9.2 22 19 10.2h-5.6L14.4 2z" fill="#fff"/></svg>
+        </span>
+        <span>AI공장</span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html#services">서비스</a>
+        <a href="idea-generator.html">아이디어 생성기</a>
+        <a href="portfolio.html">포트폴리오</a>
+        <a href="about.html">회사 소개</a>
+        <a href="index.html#contact">문의</a>
+      </nav>
+      <a href="index.html#contact" class="btn btn-primary btn-sm nav-cta">상담 문의</a>
+      <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumb"><a href="index.html">홈</a> / 아이디어 생성기</div>
+        <span class="tool-badge">✨ 무료 도구 · 로그인 불필요</span>
+        <h1>AI 창업 아이디어 <span class="grad">생성기</span></h1>
+        <p>관심 분야와 예산·시간만 알려주세요. AI공장이 돈이 되는 창업 아이디어와 수익 모델, 시작 방법까지 즉석에서 제안합니다.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container tool-wrap">
+        <form class="tool-form" id="ideaForm" autocomplete="off">
+          <div class="field">
+            <label for="kw">관심 분야 · 키워드</label>
+            <input type="text" id="kw" placeholder="예: 반려동물, 요리, 부동산, 헬스, 육아…" />
+            <div class="chips" id="chips"></div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="budget">예산</label>
+              <select id="budget">
+                <option value="none">무자본 (0원)</option>
+                <option value="low" selected>소자본 (~100만원)</option>
+                <option value="mid">중자본 (100만~1000만원)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="time">주간 투입 시간</label>
+              <select id="time">
+                <option value="low">주 5시간 이하</option>
+                <option value="mid" selected>주 5~15시간</option>
+                <option value="high">주 15시간 이상</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary gen-btn">🚀 아이디어 3개 생성하기</button>
+        </form>
+
+        <div class="results" id="results">
+          <p class="empty-hint">키워드를 넣고 버튼을 누르면 맞춤 아이디어가 여기에 나타납니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section section-alt cta-section">
+      <div class="container">
+        <div class="cta-box">
+          <div class="cta-copy">
+            <span class="eyebrow">NEXT STEP</span>
+            <h2>마음에 드는 아이디어가<br />있으신가요?</h2>
+            <p>AI공장이 그 아이디어를 실제 수익이 되도록 개발·실행해 드립니다.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="contact-item" href="mailto:midas6971@gmail.com">
+              <span class="ci-icon">✉️</span>
+              <span class="ci-text"><small>이메일</small><strong>midas6971@gmail.com</strong></span>
+            </a>
+            <a class="contact-item" href="tel:010-3250-6878">
+              <span class="ci-icon">📞</span>
+              <span class="ci-text"><small>전화</small><strong>010-3250-6878</strong></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="brand">
+          <span class="logo" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path d="M13.6 2 5 13.4h5.3L9.2 22 19 10.2h-5.6L14.4 2z" fill="#fff"/></svg>
+          </span>
+          <span>AI공장</span>
+        </a>
+        <p>AI로 돈 버는 회사. 아이디어 발굴부터 수익화까지.</p>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h4>도구</h4>
+          <a href="idea-generator.html">아이디어 생성기</a>
+          <a href="portfolio.html">포트폴리오</a>
+        </div>
+        <div>
+          <h4>회사</h4>
+          <a href="about.html">회사 소개</a>
+          <a href="index.html#contact">문의하기</a>
+        </div>
+        <div>
+          <h4>연락처</h4>
+          <a href="mailto:midas6971@gmail.com">midas6971@gmail.com</a>
+          <a href="tel:010-3250-6878">010-3250-6878</a>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>© <span id="year">2026</span> AI공장 (AI Factory). All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/idea-generator.js"></script>
+</body>
+</html>
