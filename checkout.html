@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>결제 — AI공장</title>
+  <meta name="description" content="AI공장 프리미엄 서비스 결제 페이지 (토스페이먼츠)." />
+  <meta name="theme-color" content="#0b1220" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%232b4eff'/%3E%3Cpath d='M56 16 32 58h17l-6 26 33-46H59l5-22z' fill='white'/%3E%3C/svg%3E" />
+  <script src="https://js.tosspayments.com/v2/standard"></script>
+  <style>
+    .ck-wrap { max-width: 620px; }
+    .ck-summary { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 22px 24px; margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .ck-summary .lbl { color: var(--muted); font-size: .85rem; }
+    .ck-summary #ck-name { font-weight: 800; font-size: 1.1rem; }
+    .ck-summary #ck-amount { font-weight: 800; font-size: 1.4rem; color: var(--primary); }
+    #payment-method, #agreement { margin-bottom: 14px; }
+    .ck-box { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 16px; margin-bottom: 14px; }
+    .ck-pay { width: 100%; font-size: 1.08rem; padding: 16px; }
+    .ck-status { text-align: center; color: var(--muted); font-size: .92rem; margin-top: 12px; min-height: 20px; }
+    .ck-test { background: #fff3e6; border: 1px solid #ffd8a8; color: #9a5b00; border-radius: var(--radius-sm); padding: 14px 16px; font-size: .9rem; margin-bottom: 20px; }
+    .tool-badge { display: inline-flex; align-items: center; gap: 7px; background: var(--primary-light); color: var(--primary); font-weight: 700; font-size: .85rem; padding: 6px 14px; border-radius: 999px; margin-bottom: 18px; }
+  </style>
+</head>
+<body>
+  <header class="site-header" id="top">
+    <div class="container nav">
+      <a href="index.html" class="brand"><span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M13.6 2 5 13.4h5.3L9.2 22 19 10.2h-5.6L14.4 2z" fill="#fff"/></svg></span><span>AI공장</span></a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html#services">서비스</a>
+        <a href="tools.html">무료 도구</a>
+        <a href="portfolio.html">포트폴리오</a>
+        <a href="about.html">회사 소개</a>
+        <a href="index.html#contact">문의</a>
+      </nav>
+      <a href="index.html#contact" class="btn btn-primary btn-sm nav-cta">상담 문의</a>
+      <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumb"><a href="index.html">홈</a> / 결제</div>
+        <span class="tool-badge">🔒 토스페이먼츠 안전결제</span>
+        <h1>프리미엄 <span class="grad">결제</span></h1>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container ck-wrap">
+        <div class="ck-test">
+          🧪 <b>현재 테스트 모드입니다.</b> 토스 공식 테스트 키로 동작하며 실제 청구되지 않습니다.
+          실결제 전환은 상점 키 교체와 결제 승인 서버 연동이 필요합니다.
+        </div>
+        <div class="ck-summary">
+          <div><div class="lbl">상품</div><div id="ck-name">프리미엄 리포트</div></div>
+          <div style="text-align:right"><div class="lbl">결제 금액</div><div id="ck-amount">2,900원</div></div>
+        </div>
+        <div id="payment-method"></div>
+        <div id="agreement"></div>
+        <button id="ck-pay" class="btn btn-primary ck-pay" disabled>결제하기</button>
+        <div id="ck-status" class="ck-status">결제 수단을 불러오는 중…</div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-bottom" style="border:0"><span>© <span id="year">2026</span> AI공장 (AI Factory). All rights reserved.</span></div>
+  </footer>
+  <script src="js/main.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>

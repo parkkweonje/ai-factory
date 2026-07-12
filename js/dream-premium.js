@@ -108,7 +108,10 @@
       '<div class="dp-advice"><h4>🎯 3일간의 행동 조언</h4><ol><li>' + advice.join("</li><li>") + '</li></ol></div>' +
       '<div class="dp-lucky"><b>🎱 이 꿈이 주는 로또번호</b><div class="dp-nums">' + lottoBalls(nums) + '</div><small class="lotto-note">재미로 뽑은 번호입니다. 행운을 빌어요! 🍀</small></div>' +
       '<p class="dp-disc">※ 재미로 보는 참고용 심층 해몽입니다.</p>' +
-      '<div class="dp-cta"><a class="btn btn-primary btn-sm" href="mailto:midas6971@gmail.com?subject=' + encodeURIComponent("[AI공장] 운세·해몽 서비스 문의") + '">이런 서비스 만들고 싶어요</a></div>';
+      '<div class="dp-cta">' +
+        '<a class="btn btn-primary btn-sm" href="checkout.html?name=' + encodeURIComponent("꿈해몽 프리미엄 상세 리포트") + '&amount=2900">🔒 상세 리포트 결제 (2,900원)</a>' +
+        '<a class="btn btn-ghost btn-sm" href="mailto:midas6971@gmail.com?subject=' + encodeURIComponent("[AI공장] 운세·해몽 서비스 문의") + '">서비스 문의</a>' +
+      '</div>';
     box.hidden = false;
     box.scrollIntoView({ behavior: "smooth", block: "start" });
   });

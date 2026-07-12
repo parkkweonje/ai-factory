@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>결제 실패 — AI공장</title>
+  <meta name="theme-color" content="#0b1220" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%232b4eff'/%3E%3Cpath d='M56 16 32 58h17l-6 26 33-46H59l5-22z' fill='white'/%3E%3C/svg%3E" />
+  <style>
+    .res { max-width: 560px; margin: 0 auto; text-align: center; }
+    .res-ico { font-size: 3.4rem; }
+    .res h1 { font-size: 1.8rem; margin: 12px 0 8px; }
+    .res p { color: var(--ink-soft); }
+    .res-box { text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 18px 20px; margin: 22px 0; }
+    .res-box div { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; }
+    .res-box b { color: var(--muted); font-weight: 600; }
+    .res-box span { font-weight: 700; text-align: right; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="brand"><span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M13.6 2 5 13.4h5.3L9.2 22 19 10.2h-5.6L14.4 2z" fill="#fff"/></svg></span><span>AI공장</span></a>
+    </div>
+  </header>
+  <main>
+    <section class="section">
+      <div class="container res">
+        <div class="res-ico">⚠️</div>
+        <h1>결제가 완료되지 않았습니다</h1>
+        <p>결제가 취소되었거나 오류가 발생했습니다.</p>
+        <div class="res-box" id="res-box"></div>
+        <a href="checkout.html" class="btn btn-primary">다시 시도하기</a>
+      </div>
+    </section>
+  </main>
+  <script>
+    (function () {
+      var p = new URLSearchParams(location.search);
+      var rows = [["사유", p.get("message")], ["코드", p.get("code")], ["주문번호", p.get("orderId")]];
+      document.getElementById("res-box").innerHTML = rows.filter(function (r) { return r[1]; }).map(function (r) { return "<div><b>" + r[0] + "</b><span>" + r[1] + "</span></div>"; }).join("") || "<div><b>정보</b><span>없음</span></div>";
+    })();
+  </script>
+</body>
+</html>

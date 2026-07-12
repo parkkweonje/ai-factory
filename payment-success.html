@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>결제 완료 — AI공장</title>
+  <meta name="theme-color" content="#0b1220" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%232b4eff'/%3E%3Cpath d='M56 16 32 58h17l-6 26 33-46H59l5-22z' fill='white'/%3E%3C/svg%3E" />
+  <style>
+    .res { max-width: 560px; margin: 0 auto; text-align: center; }
+    .res-ico { font-size: 3.4rem; }
+    .res h1 { font-size: 1.8rem; margin: 12px 0 8px; }
+    .res p { color: var(--ink-soft); }
+    .res-box { text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 18px 20px; margin: 22px 0; }
+    .res-box div { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: .92rem; }
+    .res-box div:last-child { border: 0; }
+    .res-box b { color: var(--muted); font-weight: 600; }
+    .res-box span { font-weight: 700; word-break: break-all; text-align: right; }
+    .res-note { background: #fff3e6; border: 1px solid #ffd8a8; color: #9a5b00; border-radius: var(--radius-sm); padding: 14px 16px; font-size: .9rem; text-align: left; margin-bottom: 22px; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="brand"><span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M13.6 2 5 13.4h5.3L9.2 22 19 10.2h-5.6L14.4 2z" fill="#fff"/></svg></span><span>AI공장</span></a>
+    </div>
+  </header>
+  <main>
+    <section class="section">
+      <div class="container res">
+        <div class="res-ico">✅</div>
+        <h1>결제 요청이 완료됐습니다</h1>
+        <p>토스페이먼츠에서 결제 인증이 처리되었습니다.</p>
+        <div class="res-box" id="res-box"></div>
+        <div class="res-note">
+          🧪 <b>테스트 모드 안내</b> — 실제 결제 <b>승인(확정)</b>은 서버에서 <code>paymentKey</code>로 승인 API를 호출해야 완료됩니다.
+          현재는 정적 사이트라 승인 서버가 없어 <b>인증까지만</b> 진행됩니다. 실결제 전환 시 이 페이지에서 승인 서버를 호출하도록 연결합니다.
+        </div>
+        <a href="tools.html" class="btn btn-primary">무료 도구로 돌아가기</a>
+      </div>
+    </section>
+  </main>
+  <script>
+    (function () {
+      var p = new URLSearchParams(location.search);
+      var rows = [["주문번호", p.get("orderId")], ["결제 금액", p.get("amount") ? Number(p.get("amount")).toLocaleString() + "원" : null], ["paymentKey", p.get("paymentKey")]];
+      var box = document.getElementById("res-box");
+      box.innerHTML = rows.filter(function (r) { return r[1]; }).map(function (r) { return "<div><b>" + r[0] + "</b><span>" + r[1] + "</span></div>"; }).join("") || "<div><b>결제 정보</b><span>없음</span></div>";
+    })();
+  </script>
+</body>
+</html>
