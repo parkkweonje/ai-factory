@@ -51,6 +51,17 @@
     return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; });
   }
 
+  function lottoColor(n) {
+    if (n <= 10) return "#fbc400";      // 노랑
+    if (n <= 20) return "#69c8f2";      // 파랑
+    if (n <= 30) return "#ff7272";      // 빨강
+    if (n <= 40) return "#aab0b6";      // 회색
+    return "#b0d840";                   // 초록
+  }
+  function lottoBalls(nums) {
+    return nums.map(function (n) { return '<span class="lotto-ball" style="background:' + lottoColor(n) + '">' + n + '</span>'; }).join("");
+  }
+
   function luckyNumbers(seedStr) {
     var seed = 0, i;
     for (i = 0; i < seedStr.length; i++) seed = (seed * 31 + seedStr.charCodeAt(i)) % 100000;
@@ -111,8 +122,8 @@
         '<p>' + L.msg + '</p>' +
       '</div>' +
       '<div class="d-syms">' + symbolsHtml + '</div>' +
-      '<div class="d-lucky"><b>🍀 오늘의 행운 숫자</b><div class="d-nums">' +
-        nums.map(function (n) { return '<span>' + n + '</span>'; }).join("") + '</div></div>' +
+      '<div class="d-lucky"><b>🎱 이 꿈이 주는 로또번호</b><div class="d-nums">' +
+        lottoBalls(nums) + '</div><small class="lotto-note">재미로 뽑은 번호입니다. 행운을 빌어요! 🍀</small></div>' +
       '<p class="d-disc">※ 재미로 보는 참고용입니다. 전통 해몽 사전을 바탕으로 하며, 실제 운명을 단정하지 않습니다.</p>' +
       '<div class="d-cta">' +
         '<button type="button" class="btn btn-ghost btn-sm js-dcopy">결과 복사</button>' +
@@ -123,7 +134,7 @@
 
     var copyBtn = box.querySelector(".js-dcopy");
     if (copyBtn) copyBtn.addEventListener("click", function () {
-      var summary = "[AI공장 꿈해몽] " + L.label + " / 행운숫자: " + nums.join(", ");
+      var summary = "[AI공장 꿈해몽] " + L.label + " / 로또번호: " + nums.join(", ");
       if (navigator.clipboard) navigator.clipboard.writeText(summary).then(function () {
         var o = copyBtn.textContent; copyBtn.textContent = "복사됨 ✓";
         setTimeout(function () { copyBtn.textContent = o; }, 1500);
