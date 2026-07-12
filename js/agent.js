@@ -3,6 +3,14 @@
 (function () {
   "use strict";
 
+  // #ag-chat 이 없는 페이지(다른 페이지)에서는 아무 것도 하지 않음
+  if (!document.getElementById("ag-chat")) return;
+
+  /* ===== 설정 =====
+     LLM 자유대화를 켜려면 배포한 서버리스 엔드포인트 URL을 넣으세요.
+     (예: Cloudflare Worker) 비워두면 규칙 기반으로만 동작합니다. */
+  var LLM_ENDPOINT = ""; // "https://your-worker.workers.dev"
+
   /* ===== 공통 데이터 ===== */
   var STEM = ["갑", "을", "병", "정", "무", "기", "경", "신", "임", "계"];
   var JIJI = ["자", "축", "인", "묘", "진", "사", "오", "미", "신", "유", "술", "해"];
@@ -118,12 +126,18 @@
   function botText(t) { bubble("bot", '<p>' + t + '</p>'); }
   function user(t) { bubble("user", '<p>' + esc(t) + '</p>'); }
 
-  function menu() {
-    bubble("bot", '<p>무엇을 봐드릴까요? 아래에서 골라주세요.</p><div class="ag-chips">' +
+  function chipsHtml() {
+    return '<div class="ag-chips">' +
       '<button class="ag-chip" data-c="saju">🔮 사주</button>' +
       '<button class="ag-chip" data-c="dream">🌙 꿈해몽</button>' +
+      '<button class="ag-chip" data-c="tarot">🎴 타로</button>' +
       '<button class="ag-chip" data-c="gunghap">💘 궁합</button>' +
-      '</div>');
+      '<button class="ag-chip" data-c="aichat">🤖 AI 자유상담</button>' +
+      '<button class="ag-chip" data-c="premium">👑 프리미엄</button>' +
+      '</div>';
+  }
+  function menu() {
+    bubble("bot", '<p>무엇을 봐드릴까요? 아래에서 골라주세요.</p>' + chipsHtml());
   }
 
   function start(mode) {
@@ -131,17 +145,32 @@
     if (mode === "saju") botText("생년(태어난 해)을 알려주세요. 예: <b>1995</b> 또는 1995-03-15 (양력)");
     else if (mode === "dream") botText("어떤 꿈을 꾸셨나요? 자유롭게 적어주세요. 예: <b>커다란 뱀이 나오는 꿈</b>");
     else if (mode === "gunghap") botText("두 사람의 태어난 해를 알려주세요. 예: <b>1995, 1993</b>");
+    else if (mode === "tarot") botText("궁금한 것을 마음속으로 떠올리고, 아무 메시지나 보내면 카드 3장을 뽑아드려요. 예: <b>이직운</b>");
+    else if (mode === "aichat") {
+      if (LLM_ENDPOINT) botText("AI 자유상담 모드예요 🤖 무엇이든 편하게 물어보세요.");
+      else { botText("🤖 AI 자유상담(LLM)은 아직 <b>연결되지 않았습니다.</b> 서버리스 엔드포인트를 배포하고 <code>js/agent.js</code>의 LLM_ENDPOINT에 넣으면 켜집니다. 우선 사주·꿈해몽·타로·궁합을 이용해 주세요!"); state.mode = null; menu(); }
+    }
   }
 
   function extractYears(t) { var m = t.match(/(19|20)\d{2}/g); return m ? m.map(Number) : []; }
+
+  function seedFrom(t) { var s = 0; for (var i = 0; i < t.length; i++) s = (s * 31 + t.charCodeAt(i)) % 100000; return s || undefined; }
+  function llmChat(t) {
+    fetch(LLM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: t }) })
+      .then(function (r) { return r.json(); })
+      .then(function (d) { bubble("bot", '<p>' + esc(d.reply || d.text || "(응답이 비어 있어요)") + '</p>'); })
+      .catch(function (e) { botText("AI 연결 오류: " + (e && e.message ? e.message : e)); });
+  }
 
   function process(t) {
     if (!state.mode) {
       // 자연어에서 의도 추정
       if (/궁합/.test(t)) return start("gunghap");
+      if (/타로/.test(t)) return start("tarot");
       if (/꿈|해몽/.test(t)) return start("dream");
       if (/사주|운세|띠/.test(t)) return start("saju");
-      botText("사주 · 꿈해몽 · 궁합 중에 골라주세요 🙂"); return menu();
+      if (LLM_ENDPOINT) { return start("aichat"), llmChat(t); }
+      botText("사주 · 꿈해몽 · 타로 · 궁합 중에 골라주세요 🙂"); return menu();
     }
     if (state.mode === "saju") {
       var ys = extractYears(t);
@@ -154,25 +183,32 @@
       var yy = extractYears(t);
       if (yy.length < 2) { botText("두 사람의 태어난 해를 함께 알려주세요. 예: 1995, 1993"); return; }
       bubble("bot", gunghapReply(yy[0], yy[1])); done();
+    } else if (state.mode === "tarot") {
+      if (!window.AIFTarot) { botText("타로 모듈을 불러오지 못했습니다."); return; }
+      bubble("bot", window.AIFTarot.resultHtml(window.AIFTarot.draw(seedFrom(t)))); done();
+    } else if (state.mode === "aichat") {
+      llmChat(t); // 자유대화 유지
     }
   }
 
   function done() {
     state.mode = null;
-    setTimeout(function () {
-      bubble("bot", '<p>또 봐드릴까요?</p><div class="ag-chips">' +
-        '<button class="ag-chip" data-c="saju">🔮 사주</button>' +
-        '<button class="ag-chip" data-c="dream">🌙 꿈해몽</button>' +
-        '<button class="ag-chip" data-c="gunghap">💘 궁합</button></div>');
-    }, 400);
+    setTimeout(function () { bubble("bot", '<p>또 봐드릴까요?</p>' + chipsHtml()); }, 400);
   }
 
   chat.addEventListener("click", function (e) {
     var b = e.target.closest(".ag-chip");
     if (!b) return;
-    var labels = { saju: "사주 볼게요", dream: "꿈해몽 볼게요", gunghap: "궁합 볼게요" };
-    user(labels[b.getAttribute("data-c")] || b.textContent);
-    start(b.getAttribute("data-c"));
+    var c = b.getAttribute("data-c");
+    if (c === "premium") {
+      user("프리미엄 볼게요");
+      botText('👑 프리미엄 상세 리포트로 이동할게요. 결제 페이지를 엽니다.');
+      setTimeout(function () { location.href = "checkout.html?name=" + encodeURIComponent("운세 프리미엄 상세 리포트") + "&amount=2900"; }, 700);
+      return;
+    }
+    var labels = { saju: "사주 볼게요", dream: "꿈해몽 볼게요", gunghap: "궁합 볼게요", tarot: "타로 볼게요", aichat: "AI 자유상담 할래요" };
+    user(labels[c] || b.textContent);
+    start(c);
   });
 
   form.addEventListener("submit", function (e) {

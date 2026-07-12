@@ -607,3 +607,44 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 @media (max-width: 560px) {
   .team-grid { grid-template-columns: 1fr; }
 }
+
+/* =========================================================
+   AI 운세 에이전트 (챗) — 공용 (agent.html + 홈 임베드)
+   ========================================================= */
+.ag-shell { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; height: 60vh; min-height: 440px; }
+.ag-topbar { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--line); background: var(--dark); color: #fff; }
+.ag-topbar .dot { width: 9px; height: 9px; border-radius: 50%; background: #17b26a; box-shadow: 0 0 0 3px rgba(23,178,106,.25); }
+.ag-topbar b { font-size: 1rem; }
+.ag-topbar span { color: #aab6d6; font-size: .82rem; margin-left: auto; }
+.ag-chat { flex: 1; overflow-y: auto; padding: 18px; background: var(--bg-soft); display: flex; flex-direction: column; gap: 12px; }
+.ag-msg { display: flex; gap: 8px; max-width: 88%; }
+.ag-bot { align-self: flex-start; }
+.ag-user { align-self: flex-end; flex-direction: row-reverse; }
+.ag-ava { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); display: grid; place-items: center; font-size: 1rem; flex-shrink: 0; }
+.ag-body { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 11px 14px; font-size: .95rem; line-height: 1.55; }
+.ag-user .ag-body { background: var(--primary); color: #fff; border-color: var(--primary); }
+.ag-body p { margin: 0; }
+.ag-body p + p { margin-top: 5px; }
+.ag-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.ag-chip { font-family: inherit; font-size: .9rem; font-weight: 700; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--primary); background: var(--primary-light); color: var(--primary); cursor: pointer; }
+.ag-chip:hover { background: var(--primary); color: #fff; }
+.ag-card .ag-h { font-weight: 800; font-size: 1.05rem; margin-bottom: 8px; color: var(--ink); }
+.ag-card p { margin: 3px 0; color: var(--ink-soft); }
+.ag-card b { color: var(--ink); }
+.ag-score { font-weight: 800; font-size: 1.15rem; color: var(--primary); margin: 6px 0; }
+.ag-lotto { margin: 10px 0 4px; font-weight: 700; font-size: .9rem; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.ag-lotto span { width: 30px; height: 30px; display: inline-grid; place-items: center; border-radius: 50%; color: #1a1c29; font-weight: 800; font-size: .85rem; border: 2px solid rgba(255,255,255,.6); }
+.ag-link { display: inline-block; margin-top: 10px; color: var(--primary); font-weight: 700; font-size: .9rem; }
+.ag-composer { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line); background: #fff; }
+.ag-composer input { flex: 1; font-family: inherit; font-size: 1rem; padding: 12px 14px; border: 1px solid var(--line); border-radius: 999px; }
+.ag-composer input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(43,78,255,.12); }
+.ag-composer button { border: 0; background: var(--primary); color: #fff; font-weight: 700; padding: 0 20px; border-radius: 999px; cursor: pointer; font-family: inherit; }
+/* 타로 (챗 내부) */
+.tr-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 6px 0; }
+.tr-card { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 12px; padding: 12px 8px; text-align: center; }
+.tr-pos { font-size: .72rem; font-weight: 800; color: var(--primary); }
+.tr-emoji { font-size: 1.8rem; }
+.tr-name { font-weight: 800; font-size: .92rem; margin: 3px 0; }
+.tr-m { font-size: .8rem; color: var(--ink-soft); }
+.tr-tip { font-size: .78rem; color: var(--ink); margin-top: 4px; }
+.tr-summary { background: var(--primary-light); border-radius: 10px; padding: 10px 12px; font-size: .86rem; color: var(--ink-soft); margin-top: 6px; }

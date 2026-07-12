@@ -94,6 +94,26 @@
       </div>
     </section>
 
+    <!-- ===== 운세 에이전트 임베드 ===== -->
+    <section class="section" id="agent" style="padding-top:44px">
+      <div class="container" style="max-width:640px">
+        <div class="section-head" style="margin-bottom:22px">
+          <span class="eyebrow">AI 운세 에이전트</span>
+          <h2>지금 바로 물어보세요</h2>
+          <p class="section-sub">사주 · 꿈해몽 · 타로 · 궁합을 대화로 즉시. 로그인 필요 없어요.</p>
+        </div>
+        <div class="ag-shell">
+          <div class="ag-topbar"><span class="dot"></span><b>운세 에이전트</b><span>온라인</span></div>
+          <div class="ag-chat" id="ag-chat"></div>
+          <form class="ag-composer" id="ag-form" autocomplete="off">
+            <input id="ag-input" placeholder="메시지 입력… (예: 1995, 뱀 꿈, 타로)" />
+            <button type="submit">전송</button>
+          </form>
+        </div>
+        <p style="text-align:center;margin-top:14px"><a href="agent.html" class="btn btn-ghost btn-sm">전체 화면으로 열기 →</a></p>
+      </div>
+    </section>
+
     <!-- ===== Trust bar ===== -->
     <section class="trustbar">
       <div class="container trust-grid">
@@ -276,5 +296,7 @@
   </footer>
 
   <script src="js/main.js"></script>
+  <script src="js/tarot.js"></script>
+  <script src="js/agent.js"></script>
 </body>
 </html>

@@ -34,3 +34,4 @@ AI공장은 5명의 AI 전문가가 분업해 **아이디어를 수익으로 만
 | 005 | 2026-07-12 | 운세 라인 확장: 궁합·정식 사주(사주팔자)·꿈해몽 프리미엄 | `compatibility.html`, `saju-pro.html`, `dream-premium.html` | 배포 완료 |
 | 006 | 2026-07-12 | 꿈해몽 로또번호 + 토스페이먼츠 결제 연동(테스트) | `checkout.html`, `payment-success.html`, `payment-fail.html` | 배포(테스트) |
 | 007 | 2026-07-12 | AI 운세 에이전트 (사주·꿈해몽·궁합 대화형 통합) | `agent.html`, `js/agent.js` | 배포 완료 |
+| 008 | 2026-07-12 | 타로 추가 · 에이전트 강화(타로·프리미엄 결제·LLM 훅) · 홈 화면 에이전트 임베드 · LLM 서버리스 코드 | `tarot.html`, `js/tarot.js`, `js/agent.js`, `index.html`, `serverless/` | 배포 완료 |

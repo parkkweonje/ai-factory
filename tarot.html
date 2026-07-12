@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 타로 — AI공장</title>
+  <meta name="description" content="질문을 떠올리고 카드를 뽑으면 과거·현재·미래 3장의 타로로 답해드립니다. 무료·로그인 불필요." />
+  <meta name="theme-color" content="#0b1220" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="AI 타로 — AI공장" />
+  <meta property="og:description" content="과거·현재·미래 3카드 무료 타로." />
+  <meta property="og:locale" content="ko_KR" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%232b4eff'/%3E%3Cpath d='M56 16 32 58h17l-6 26 33-46H59l5-22z' fill='white'/%3E%3C/svg%3E" />
+  <style>
+    .f-wrap { max-width: 760px; }
+    .tool-badge { display: inline-flex; align-items: center; gap: 7px; background: var(--primary-light); color: var(--primary); font-weight: 700; font-size: .85rem; padding: 6px 14px; border-radius: 999px; margin-bottom: 18px; }
+    .f-form { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 26px; }
+    .f-form label { display: block; font-weight: 700; margin-bottom: 10px; }
+    .f-form input { width: 100%; font-family: inherit; font-size: 1rem; padding: 13px 15px; border: 1px solid var(--line); border-radius: var(--radius-sm); }
+    .f-form input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(43,78,255,.12); }
+    .f-btn { width: 100%; font-size: 1.05rem; padding: 15px; margin-top: 12px; }
+    #tResult { margin-top: 26px; }
+    .tr-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px; }
+    .tr-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 20px 16px; text-align: center; }
+    .tr-pos { font-size: .78rem; font-weight: 800; color: var(--primary); background: var(--primary-light); display: inline-block; padding: 3px 12px; border-radius: 999px; margin-bottom: 12px; }
+    .tr-emoji { font-size: 2.6rem; }
+    .tr-name { font-weight: 800; font-size: 1.1rem; margin: 6px 0 8px; }
+    .tr-m { color: var(--ink-soft); font-size: .9rem; }
+    .tr-tip { color: var(--ink); font-weight: 600; font-size: .88rem; margin-top: 8px; }
+    .tr-summary { background: var(--primary-light); border: 1px solid #d7ddff; border-radius: var(--radius-sm); padding: 16px 18px; color: var(--ink-soft); }
+    .tr-summary b { color: var(--primary); }
+    .tr-disc { color: var(--muted); font-size: .82rem; text-align: center; margin: 14px 0; }
+    .tr-cta { display: flex; gap: 10px; justify-content: center; }
+    @media (max-width: 560px){ .tr-cards { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="site-header" id="top">
+    <div class="container nav">
+      <a href="index.html" class="brand"><span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M13.6 2 5 13.4h5.3L9.2 22 19 10.2h-5.6L14.4 2z" fill="#fff"/></svg></span><span>AI공장</span></a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html#services">서비스</a>
+        <a href="tools.html">무료 도구</a>
+        <a href="agent.html">운세 에이전트</a>
+        <a href="portfolio.html">포트폴리오</a>
+        <a href="index.html#contact">문의</a>
+      </nav>
+      <a href="index.html#contact" class="btn btn-primary btn-sm nav-cta">상담 문의</a>
+      <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumb"><a href="index.html">홈</a> / <a href="tools.html">무료 도구</a> / 타로</div>
+        <span class="tool-badge">🎴 무료 · 로그인 불필요</span>
+        <h1>AI <span class="grad">타로</span></h1>
+        <p>궁금한 것을 마음속으로 떠올리고 카드를 뽑으세요. 과거·현재·미래 3장으로 흐름을 읽어드립니다.</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container f-wrap">
+        <form class="f-form" id="tForm" autocomplete="off">
+          <label for="tQuestion">질문 (선택)</label>
+          <input type="text" id="tQuestion" placeholder="예: 이번 이직, 잘 될까요?" />
+          <button type="submit" class="btn btn-primary f-btn">🎴 카드 3장 뽑기</button>
+        </form>
+        <div id="tResult" hidden></div>
+      </div>
+    </section>
+    <section class="section section-alt cta-section">
+      <div class="container">
+        <div class="cta-box">
+          <div class="cta-copy"><span class="eyebrow">FOR BUSINESS</span><h2>타로·운세 서비스,<br />직접 만들고 싶으세요?</h2><p>AI공장이 기획·개발·수익화까지 만들어 드립니다.</p></div>
+          <div class="cta-actions">
+            <a class="contact-item" href="mailto:midas6971@gmail.com"><span class="ci-icon">✉️</span><span class="ci-text"><small>이메일</small><strong>midas6971@gmail.com</strong></span></a>
+            <a class="contact-item" href="tel:010-3250-6878"><span class="ci-icon">📞</span><span class="ci-text"><small>전화</small><strong>010-3250-6878</strong></span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand"><a href="index.html" class="brand"><span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M13.6 2 5 13.4h5.3L9.2 22 19 10.2h-5.6L14.4 2z" fill="#fff"/></svg></span><span>AI공장</span></a><p>AI로 돈 버는 회사. 아이디어 발굴부터 수익화까지.</p></div>
+      <div class="footer-cols">
+        <div><h4>운세</h4><a href="agent.html">운세 에이전트</a><a href="tarot.html">타로</a><a href="saju-pro.html">정식 사주</a></div>
+        <div><h4>회사</h4><a href="about.html">회사 소개</a><a href="tools.html">무료 도구</a></div>
+        <div><h4>연락처</h4><a href="mailto:midas6971@gmail.com">midas6971@gmail.com</a><a href="tel:010-3250-6878">010-3250-6878</a></div>
+      </div>
+    </div>
+    <div class="container footer-bottom"><span>© <span id="year">2026</span> AI공장 (AI Factory). All rights reserved.</span></div>
+  </footer>
+  <script src="js/main.js"></script>
+  <script src="js/tarot.js"></script>
+</body>
+</html>
