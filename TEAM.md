@@ -30,3 +30,4 @@ AI공장은 5명의 AI 전문가가 분업해 **아이디어를 수익으로 만
 | 001 | 2026-07-11 | AI 창업 아이디어 생성기 | `idea-generator.html` | 배포 완료 |
 | 002 | 2026-07-11 | AI 사업성 자가진단 + 무료 도구 허브 | `viability-test.html`, `tools.html` | 배포 완료 |
 | 003 | 2026-07-12 | AI 꿈해몽 (운세 사업 1단계 검증) | `dream-interpreter.html` | 배포 완료 |
+| 004 | 2026-07-12 | AI 운세 통합 (간이 사주 + 꿈해몽 탭 선택) | `fortune.html`, `js/saju.js` | 배포 완료 |

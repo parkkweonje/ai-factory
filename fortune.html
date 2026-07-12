@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 운세 — 사주 · 꿈해몽 | AI공장</title>
+  <meta name="description" content="사주와 꿈해몽을 한 곳에서. 생년월일로 보는 간이 사주, 꿈 내용으로 보는 해몽까지 무료로 확인하세요." />
+  <meta name="theme-color" content="#0b1220" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="AI 운세 — 사주 · 꿈해몽 | AI공장" />
+  <meta property="og:description" content="사주와 꿈해몽을 선택해서 보는 무료 AI 운세." />
+  <meta property="og:locale" content="ko_KR" />
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%232b4eff'/%3E%3Cpath d='M56 16 32 58h17l-6 26 33-46H59l5-22z' fill='white'/%3E%3C/svg%3E" />
+  <style>
+    .f-wrap { max-width: 760px; }
+    .tool-badge { display: inline-flex; align-items: center; gap: 7px; background: var(--primary-light); color: var(--primary); font-weight: 700; font-size: .85rem; padding: 6px 14px; border-radius: 999px; margin-bottom: 18px; }
+
+    /* Tabs */
+    .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 999px; padding: 6px; margin-bottom: 24px; }
+    .tab { font-family: inherit; font-size: 1.02rem; font-weight: 700; padding: 12px; border: 0; border-radius: 999px; background: transparent; color: var(--ink-soft); cursor: pointer; transition: background .2s, color .2s, box-shadow .2s; }
+    .tab.active { background: #fff; color: var(--primary); box-shadow: var(--shadow-sm); }
+
+    /* Shared form */
+    .f-form { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 26px; }
+    .f-form label { display: block; font-weight: 700; margin-bottom: 8px; font-size: .95rem; }
+    .f-row3 { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 12px; }
+    .f-form input, .f-form select, #dText { width: 100%; font-family: inherit; font-size: 1rem; padding: 13px 14px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: #fff; color: var(--ink); }
+    .f-form input:focus, .f-form select:focus, #dText:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(43,78,255,.12); }
+    #dText { resize: vertical; min-height: 110px; line-height: 1.6; }
+    .field { margin-bottom: 16px; }
+    .f-btn { width: 100%; font-size: 1.05rem; padding: 15px; margin-top: 6px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
+    .chip { font-size: .84rem; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: var(--primary-light); color: var(--primary); border: 0; cursor: pointer; font-family: inherit; }
+    .chip:hover { background: #dfe4ff; }
+
+    /* Saju result */
+    #sResult, #dResult { margin-top: 26px; }
+    .s-top { display: flex; align-items: center; gap: 18px; background: var(--dark); color: #fff; border-radius: var(--radius); padding: 24px 26px; margin-bottom: 16px; }
+    .s-emoji { font-size: 3rem; }
+    .s-title { font-size: 1.5rem; font-weight: 800; }
+    .s-sub { color: #cfd6ea; margin-top: 4px; }
+    .s-sub b { color: #9fb0ff; }
+    .s-block { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 16px 18px; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
+    .s-block b { color: var(--primary); display: block; margin-bottom: 5px; }
+    .s-block p { color: var(--ink-soft); }
+    .s-block.hl { border-color: var(--primary); background: var(--primary-light); }
+    .s-block.hl b { color: var(--primary-dark); }
+    .s-block.hl p { color: var(--ink); }
+    .s-lucky-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+    .s-chip { background: var(--bg-soft); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px; text-align: center; }
+    .s-chip span { display: block; color: var(--muted); font-size: .78rem; margin-bottom: 3px; }
+    .s-chip b { font-size: .98rem; }
+    .s-lucky, .d-lucky { background: var(--dark); color: #fff; border-radius: var(--radius); padding: 20px 24px; text-align: center; margin-bottom: 14px; }
+    .s-lucky b, .d-lucky b { display: block; margin-bottom: 12px; color: #cfd6ea; }
+    .s-nums, .d-nums { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    .s-nums span, .d-nums span { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--accent)); }
+    .s-disc, .d-disc { color: var(--muted); font-size: .82rem; text-align: center; margin-bottom: 16px; }
+    .s-cta, .d-cta { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+
+    /* Dream result */
+    .d-verdict { background: var(--card); border: 2px solid; border-radius: var(--radius); padding: 22px 24px; box-shadow: var(--shadow-sm); text-align: center; margin-bottom: 18px; }
+    .d-verdict-badge { display: inline-block; color: #fff; font-weight: 800; font-size: 1.1rem; padding: 8px 20px; border-radius: 999px; margin-bottom: 12px; }
+    .d-verdict p { color: var(--ink-soft); }
+    .d-syms { display: grid; gap: 14px; margin-bottom: 18px; }
+    .sym { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; box-shadow: var(--shadow-sm); }
+    .sym-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+    .sym-head b { font-size: 1.15rem; }
+    .sym-badge { color: #fff; font-size: .74rem; font-weight: 800; padding: 4px 11px; border-radius: 999px; white-space: nowrap; }
+    .sym p { color: var(--ink-soft); font-size: .96rem; }
+    .sym-tip { margin-top: 8px; color: var(--ink) !important; font-weight: 600; }
+
+    @media (max-width: 560px){ .f-row3 { grid-template-columns: 1fr 1fr; } .s-lucky-row { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+
+  <header class="site-header" id="top">
+    <div class="container nav">
+      <a href="index.html" class="brand">
+        <span class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M13.6 2 5 13.4h5.3L9.2 22 19 10.2h-5.6L14.4 2z" fill="#fff"/></svg>
+        </span>
+        <span>AI공장</span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html#services">서비스</a>
+        <a href="tools.html">무료 도구</a>
+        <a href="portfolio.html">포트폴리오</a>
+        <a href="about.html">회사 소개</a>
+        <a href="index.html#contact">문의</a>
+      </nav>
+      <a href="index.html#contact" class="btn btn-primary btn-sm nav-cta">상담 문의</a>
+      <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumb"><a href="index.html">홈</a> / <a href="tools.html">무료 도구</a> / AI 운세</div>
+        <span class="tool-badge">🔮 무료 · 로그인 불필요</span>
+        <h1>AI <span class="grad">운세</span></h1>
+        <p>사주와 꿈해몽을 한 곳에서. 원하는 메뉴를 선택하세요.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container f-wrap">
+
+        <div class="tabs" role="tablist">
+          <button class="tab active" id="tab-saju" data-t="saju" role="tab" aria-selected="true">🔮 사주</button>
+          <button class="tab" id="tab-dream" data-t="dream" role="tab" aria-selected="false">🌙 꿈해몽</button>
+        </div>
+
+        <!-- ===== 사주 패널 ===== -->
+        <div class="tab-panel" id="panel-saju">
+          <form class="f-form" id="sForm" autocomplete="off">
+            <div class="field">
+              <label>생년월일 (양력)</label>
+              <div class="f-row3">
+                <input type="number" id="sYear" placeholder="예: 1995" min="1900" max="2025" />
+                <input type="number" id="sMonth" placeholder="월" min="1" max="12" />
+                <input type="number" id="sDay" placeholder="일" min="1" max="31" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="sGender">성별</label>
+              <select id="sGender">
+                <option value="">선택 안 함</option>
+                <option value="f">여성</option>
+                <option value="m">남성</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary f-btn">🔮 내 사주 보기</button>
+          </form>
+          <div id="sResult" hidden></div>
+        </div>
+
+        <!-- ===== 꿈해몽 패널 ===== -->
+        <div class="tab-panel" id="panel-dream" hidden>
+          <form class="f-form" id="dForm" autocomplete="off">
+            <label for="dText">어떤 꿈을 꾸셨나요?</label>
+            <textarea id="dText" placeholder="예: 커다란 뱀이 나를 따라오는 꿈을 꿨어요."></textarea>
+            <div class="chips" id="dChips"></div>
+            <button type="submit" class="btn btn-primary f-btn">🌙 꿈 해몽하기</button>
+          </form>
+          <div id="dResult" hidden></div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section section-alt cta-section">
+      <div class="container">
+        <div class="cta-box">
+          <div class="cta-copy">
+            <span class="eyebrow">FOR BUSINESS</span>
+            <h2>이런 운세 서비스,<br />직접 만들고 싶으세요?</h2>
+            <p>AI공장은 사주·타로·꿈해몽 같은 AI 서비스를 기획·개발·수익화까지 대신 만들어 드립니다.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="contact-item" href="mailto:midas6971@gmail.com">
+              <span class="ci-icon">✉️</span>
+              <span class="ci-text"><small>이메일</small><strong>midas6971@gmail.com</strong></span>
+            </a>
+            <a class="contact-item" href="tel:010-3250-6878">
+              <span class="ci-icon">📞</span>
+              <span class="ci-text"><small>전화</small><strong>010-3250-6878</strong></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="brand">
+          <span class="logo" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path d="M13.6 2 5 13.4h5.3L9.2 22 19 10.2h-5.6L14.4 2z" fill="#fff"/></svg>
+          </span>
+          <span>AI공장</span>
+        </a>
+        <p>AI로 돈 버는 회사. 아이디어 발굴부터 수익화까지.</p>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h4>도구</h4>
+          <a href="idea-generator.html">아이디어 생성기</a>
+          <a href="viability-test.html">사업성 진단</a>
+          <a href="fortune.html">AI 운세 (사주·꿈해몽)</a>
+        </div>
+        <div>
+          <h4>회사</h4>
+          <a href="about.html">회사 소개</a>
+          <a href="index.html#contact">문의하기</a>
+        </div>
+        <div>
+          <h4>연락처</h4>
+          <a href="mailto:midas6971@gmail.com">midas6971@gmail.com</a>
+          <a href="tel:010-3250-6878">010-3250-6878</a>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>© <span id="year">2026</span> AI공장 (AI Factory). All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script>
+    // 탭 전환
+    (function () {
+      var tabs = document.querySelectorAll(".tab");
+      var panels = { saju: document.getElementById("panel-saju"), dream: document.getElementById("panel-dream") };
+      tabs.forEach(function (t) {
+        t.addEventListener("click", function () {
+          tabs.forEach(function (x) { x.classList.remove("active"); x.setAttribute("aria-selected", "false"); });
+          t.classList.add("active"); t.setAttribute("aria-selected", "true");
+          var key = t.getAttribute("data-t");
+          Object.keys(panels).forEach(function (k) { panels[k].hidden = (k !== key); });
+        });
+      });
+      // ?tab=dream 지원
+      var q = new URLSearchParams(location.search).get("tab");
+      if (q === "dream") { document.getElementById("tab-dream").click(); }
+    })();
+  </script>
+  <script src="js/main.js"></script>
+  <script src="js/saju.js"></script>
+  <script src="js/dream-interpreter.js"></script>
+</body>
+</html>
