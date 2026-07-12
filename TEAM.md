@@ -32,3 +32,4 @@ AI공장은 5명의 AI 전문가가 분업해 **아이디어를 수익으로 만
 | 003 | 2026-07-12 | AI 꿈해몽 (운세 사업 1단계 검증) | `dream-interpreter.html` | 배포 완료 |
 | 004 | 2026-07-12 | AI 운세 통합 (간이 사주 + 꿈해몽 탭 선택) | `fortune.html`, `js/saju.js` | 배포 완료 |
 | 005 | 2026-07-12 | 운세 라인 확장: 궁합·정식 사주(사주팔자)·꿈해몽 프리미엄 | `compatibility.html`, `saju-pro.html`, `dream-premium.html` | 배포 완료 |
+| 006 | 2026-07-12 | 꿈해몽 로또번호 + 토스페이먼츠 결제 연동(테스트) | `checkout.html`, `payment-success.html`, `payment-fail.html` | 배포(테스트) |
