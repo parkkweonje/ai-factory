@@ -45,3 +45,4 @@ AI공장은 6명의 AI 전문가가 분업해 **아이디어를 수익으로 만
 | 009 | 2026-07-15 | 블로그 담당(W1 글쓰미) 신설 + 블로그 오픈(첫 글 3편) | `blog.html`, `blog-ai-money.html`, `blog-startup-items-2026.html`, `blog-fortune-business.html` | 배포 완료 |
 | 010 | 2026-07-18 | 혜택·이벤트 큐레이션 페이지(합법 참여, 앱테크·공모전·정부지원·캐시백) | `deals.html` | 배포 완료 |
 | 011 | 2026-07-20 | [주간 블로그·자동] 유행 사업 벤치마킹하는 법 5단계 | `blog-benchmarking.html` | 배포 완료 |
+| 012 | 2026-07-27 | [주간 블로그·자동] AI 부업, 진짜 되는 것과 사기 구분하는 법 | `blog-ai-sidejob-scam.html` | 배포 완료 |
